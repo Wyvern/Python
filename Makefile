@@ -42,9 +42,9 @@ AR=		ar
 READELF=	readelf
 SOABI=		cpython-37m-s390x-linux-gnu
 LDVERSION=	$(VERSION)$(ABIFLAGS)
-GITVERSION=	
-GITTAG=		
-GITBRANCH=	
+GITVERSION=	git --git-dir $(srcdir)/.git rev-parse --short HEAD
+GITTAG=		git --git-dir $(srcdir)/.git describe --all --always --dirty
+GITBRANCH=	git --git-dir $(srcdir)/.git name-rev --name-only HEAD
 PGO_PROF_GEN_FLAG=-fprofile-generate
 PGO_PROF_USE_FLAG=-fprofile-use -fprofile-correction
 LLVM_PROF_MERGER=true
@@ -85,11 +85,11 @@ CONFIGURE_CFLAGS=
 # CFLAGS_NODIST is used for building the interpreter and stdlib C extensions.
 # Use it when a compiler flag should _not_ be part of the distutils CFLAGS
 # once Python is installed (Issue #21121).
-CONFIGURE_CFLAGS_NODIST= -std=c99 -Wextra -Wno-unused-result -Wno-unused-parameter -Wno-missing-field-initializers -Werror=implicit-function-declaration
+CONFIGURE_CFLAGS_NODIST= -flto -fuse-linker-plugin -ffat-lto-objects -flto-partition=none -g -std=c99 -Wextra -Wno-unused-result -Wno-unused-parameter -Wno-missing-field-initializers -Werror=implicit-function-declaration
 # LDFLAGS_NODIST is used in the same manner as CFLAGS_NODIST.
 # Use it when a linker flag should _not_ be part of the distutils LDFLAGS
 # once Python is installed (bpo-35257)
-CONFIGURE_LDFLAGS_NODIST=
+CONFIGURE_LDFLAGS_NODIST= -flto -fuse-linker-plugin -ffat-lto-objects -flto-partition=none -g
 CONFIGURE_CPPFLAGS=	
 CONFIGURE_LDFLAGS=	
 # Avoid assigning CFLAGS, LDFLAGS, etc. so users can use them on the
@@ -203,7 +203,7 @@ EXEMODE=	755
 FILEMODE=	644
 
 # configure script arguments
-CONFIG_ARGS=	 '--prefix=/usr/local' '--enable-optimizations'
+CONFIG_ARGS=	 '--prefix=/usr/local' '--enable-optimizations' '--with-lto'
 
 
 # Subdirectories with code
@@ -243,8 +243,8 @@ LIBOBJS=
 PYTHON=		python$(EXE)
 BUILDPYTHON=	python$(BUILDEXE)
 
-PYTHON_FOR_REGEN=python
-UPDATE_FILE=python $(srcdir)/Tools/scripts/update_file.py
+PYTHON_FOR_REGEN=python3.7
+UPDATE_FILE=python3.7 $(srcdir)/Tools/scripts/update_file.py
 PYTHON_FOR_BUILD=./$(BUILDPYTHON) -E
 _PYTHON_HOST_PLATFORM=
 BUILD_GNU_TYPE=	s390x-ibm-linux-gnu

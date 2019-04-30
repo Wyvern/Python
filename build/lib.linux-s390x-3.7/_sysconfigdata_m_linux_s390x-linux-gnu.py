@@ -24,14 +24,16 @@ build_time_vars = {'ABIFLAGS': 'm',
  'CONFIGFILES': 'configure configure.ac acconfig.h pyconfig.h.in '
                 'Makefile.pre.in',
  'CONFIGURE_CFLAGS': '',
- 'CONFIGURE_CFLAGS_NODIST': '-std=c99 -Wextra -Wno-unused-result '
-                            '-Wno-unused-parameter '
+ 'CONFIGURE_CFLAGS_NODIST': '-flto -fuse-linker-plugin -ffat-lto-objects '
+                            '-flto-partition=none -g -std=c99 -Wextra '
+                            '-Wno-unused-result -Wno-unused-parameter '
                             '-Wno-missing-field-initializers '
                             '-Werror=implicit-function-declaration',
  'CONFIGURE_CPPFLAGS': '',
  'CONFIGURE_LDFLAGS': '',
- 'CONFIGURE_LDFLAGS_NODIST': '',
- 'CONFIG_ARGS': "'--prefix=/usr/local' '--enable-optimizations'",
+ 'CONFIGURE_LDFLAGS_NODIST': '-flto -fuse-linker-plugin -ffat-lto-objects '
+                             '-flto-partition=none -g',
+ 'CONFIG_ARGS': "'--prefix=/usr/local' '--enable-optimizations' '--with-lto'",
  'CONFINCLUDEDIR': '/usr/local/include',
  'CONFINCLUDEPY': '/usr/local/include/python3.7m',
  'COREPYTHONPATH': '',
@@ -74,9 +76,9 @@ build_time_vars = {'ABIFLAGS': 'm',
  'FLOCK_NEEDS_LIBBSD': 0,
  'GETPGRP_HAVE_ARG': 0,
  'GETTIMEOFDAY_NO_TZ': 0,
- 'GITBRANCH': '',
- 'GITTAG': '',
- 'GITVERSION': '',
+ 'GITBRANCH': 'git --git-dir ./.git name-rev --name-only HEAD',
+ 'GITTAG': 'git --git-dir ./.git describe --all --always --dirty',
+ 'GITVERSION': 'git --git-dir ./.git rev-parse --short HEAD',
  'GNULD': 'yes',
  'HAVE_ACCEPT4': 1,
  'HAVE_ACOSH': 1,
@@ -591,37 +593,47 @@ build_time_vars = {'ABIFLAGS': 'm',
  'PYTHONFRAMEWORKPREFIX': '',
  'PYTHONPATH': '',
  'PYTHON_FOR_BUILD': './python -E',
- 'PYTHON_FOR_REGEN': 'python',
+ 'PYTHON_FOR_REGEN': 'python3.7',
  'PYTHON_HEADERS': '\\',
  'PYTHON_OBJS': '\\',
  'PY_BUILTIN_MODULE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g '
-                             '-fwrapv -O3 -Wall -std=c99 -Wextra '
-                             '-Wno-unused-result -Wno-unused-parameter '
+                             '-fwrapv -O3 -Wall -flto -fuse-linker-plugin '
+                             '-ffat-lto-objects -flto-partition=none -g '
+                             '-std=c99 -Wextra -Wno-unused-result '
+                             '-Wno-unused-parameter '
                              '-Wno-missing-field-initializers '
                              '-Werror=implicit-function-declaration '
                              '-fprofile-use -fprofile-correction -I. '
                              '-I./Include -DPy_BUILD_CORE_BUILTIN',
  'PY_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall',
- 'PY_CFLAGS_NODIST': '-std=c99 -Wextra -Wno-unused-result '
-                     '-Wno-unused-parameter -Wno-missing-field-initializers '
+ 'PY_CFLAGS_NODIST': '-flto -fuse-linker-plugin -ffat-lto-objects '
+                     '-flto-partition=none -g -std=c99 -Wextra '
+                     '-Wno-unused-result -Wno-unused-parameter '
+                     '-Wno-missing-field-initializers '
                      '-Werror=implicit-function-declaration -fprofile-use '
                      '-fprofile-correction',
  'PY_COERCE_C_LOCALE': 1,
  'PY_CORE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 '
-                   '-Wall -std=c99 -Wextra -Wno-unused-result '
-                   '-Wno-unused-parameter -Wno-missing-field-initializers '
+                   '-Wall -flto -fuse-linker-plugin -ffat-lto-objects '
+                   '-flto-partition=none -g -std=c99 -Wextra '
+                   '-Wno-unused-result -Wno-unused-parameter '
+                   '-Wno-missing-field-initializers '
                    '-Werror=implicit-function-declaration -fprofile-use '
                    '-fprofile-correction -I. -I./Include -DPy_BUILD_CORE',
- 'PY_CORE_LDFLAGS': '-s',
+ 'PY_CORE_LDFLAGS': '-s -flto -fuse-linker-plugin -ffat-lto-objects '
+                    '-flto-partition=none -g',
  'PY_CPPFLAGS': '-I. -I./Include',
  'PY_FORMAT_SIZE_T': '"z"',
  'PY_LDFLAGS': '-s',
- 'PY_LDFLAGS_NODIST': '',
+ 'PY_LDFLAGS_NODIST': '-flto -fuse-linker-plugin -ffat-lto-objects '
+                      '-flto-partition=none -g',
  'PY_SSL_DEFAULT_CIPHERS': 1,
  'PY_SSL_DEFAULT_CIPHER_STRING': 0,
  'PY_STDMODULE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv '
-                        '-O3 -Wall -std=c99 -Wextra -Wno-unused-result '
-                        '-Wno-unused-parameter -Wno-missing-field-initializers '
+                        '-O3 -Wall -flto -fuse-linker-plugin -ffat-lto-objects '
+                        '-flto-partition=none -g -std=c99 -Wextra '
+                        '-Wno-unused-result -Wno-unused-parameter '
+                        '-Wno-missing-field-initializers '
                         '-Werror=implicit-function-declaration -fprofile-use '
                         '-fprofile-correction -I. -I./Include',
  'Py_DEBUG': 0,
@@ -682,7 +694,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'TM_IN_SYS_TIME': 0,
  'UNICODE_DEPS': '\\',
  'UNIVERSALSDK': '',
- 'UPDATE_FILE': 'python ./Tools/scripts/update_file.py',
+ 'UPDATE_FILE': 'python3.7 ./Tools/scripts/update_file.py',
  'USE_COMPUTED_GOTOS': 0,
  'VERSION': '3.7',
  'WINDOW_HAS_FLAGS': 0,
